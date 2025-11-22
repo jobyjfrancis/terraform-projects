@@ -72,25 +72,25 @@ resource "aws_instance" "web_server" {
     Name = "my-web-server"
   }
 
-  # user_data = <<-EOF
-  #   #!/bin/bash
-  #   # Use this for your user data (script from top to bottom)
-  #   # install httpd (Linux 2 version)
-  #   yum update -y
-  #   yum install -y httpd
-  #   systemctl start httpd
-  #   systemctl enable httpd
-  #   echo "<h1>Hello World from $(hostname -f)</h1>" > /var/www/html/index.html
-  #  EOF 
   user_data = <<-EOF
     #!/bin/bash
     # Use this for your user data (script from top to bottom)
-    # install docker
-    sudo yum update -y
-    sudo yum install -y docker
-    sudo service docker start
-    sudo usermod -aG docker $USER
-    EOF
+    # install httpd (Linux 2 version)
+    yum update -y
+    yum install -y httpd
+    systemctl start httpd
+    systemctl enable httpd
+    echo "<h1>Hello World from $(hostname -f)</h1>" > /var/www/html/index.html
+   EOF 
+  # user_data = <<-EOF
+  #   #!/bin/bash
+  #   yum update -y
+  #   yum install -y docker curl
+  #   curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+  #   chmod +x /usr/local/bin/docker-compose
+  #   systemctl enable --now docker
+  #   systemctl start docker
+  #   EOF
 }
 
 output "ec2_public_ip" {
